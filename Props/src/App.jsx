@@ -3,6 +3,7 @@ import { useState } from 'react'
 import CallBack from './COmponents/CallBack'
 import './App.css'
 import ParetComponte from './COmponents/ParentComponent'
+import Incres from './COmponents/Incres'
 
 function App() {
   const [count, setCount] = useState(0)
@@ -20,7 +21,7 @@ function App() {
       
       <CallBack getColor={getColor}/>
       {/* <Data profile="Shahid"/> */}
-
+      <Incres/>
       <ParetComponte/>
     </>
   )
