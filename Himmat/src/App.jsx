@@ -15,6 +15,10 @@ function App() {
     {
       path: "/signup",
       element: <Signup/>,
+    },
+    {
+      path : '/Home',
+      element : <Home/>,
     }
   ])
   return (
