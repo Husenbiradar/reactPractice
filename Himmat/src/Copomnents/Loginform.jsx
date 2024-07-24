@@ -7,26 +7,46 @@ function LoginForm() {
     const navigate = useNavigate();
     const [input, setInput] = useState('');
     const [password, setPassword] = useState('');
-    const [errorMessage, setErrorMessage] = useState('');
+    const [inputError, setInputError] = useState('');
+    const [passwordError, setPasswordError] = useState('');
 
     const userName = user ? user.username : "guest";
     const userEmail = user ? user.email : 'guest';
     const userPassword = user ? user.password : "noPassword";
 
+    const validateInput = (value) => {
+        if (!value) return "Please fill this field";
+        if (/\d/.test(value)) return "Input contains numbers";
+        const specialCharsPattern = /[^a-zA-Z]/;
+        if (specialCharsPattern.test(value)) return "Input contains special characters";
+        return '';
+    };
+
+    const validatePassword = (value) => {
+        if (!value) return "Please fill this field";
+        return '';
+    };
+
     const onSubmit = (e) => {
         e.preventDefault();
-        if (!input || !password) {
-            setErrorMessage("Please fill all the fields");
+        const inputValidationError = validateInput(input);
+        const passwordValidationError = validatePassword(password);
+
+        if (inputValidationError || passwordValidationError) {
+            setInputError(inputValidationError);
+            setPasswordError(passwordValidationError);
             return;
         }
 
         if ((input === userEmail || input === userName) && password === userPassword) {
-            setErrorMessage('');
-            navigate('/home');
+            setInputError('');
+            setPasswordError('');
+            navigate('/Layout');
         } else {
-            setErrorMessage("Invalid credentials");
+            setInputError('');
+            setPasswordError("Invalid Password");
         }
-    }
+    };
 
     return (
         <div>
@@ -38,10 +58,11 @@ function LoginForm() {
                         type="text"
                         id="input"
                         value={input}
-                        onChange={(e) => setInput(e.target.value)}
+                        onChange={(e) => { setInput(e.target.value); setInputError(''); }}
                         className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                         placeholder="Username or Email"
                     />
+                    {inputError && <p className="text-red-500 text-xs italic mt-2">{inputError}</p>}
                 </div>
                 <div className="mb-4">
                     <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="password">Password</label>
@@ -49,19 +70,18 @@ function LoginForm() {
                         type="password"
                         id="password"
                         value={password}
-                        onChange={(e) => setPassword(e.target.value)}
+                        onChange={(e) => { setPassword(e.target.value); setPasswordError(''); }}
                         className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                         placeholder="********"
                     />
+                    {passwordError && <p className="text-red-500 text-xs italic mt-2">{passwordError}</p>}
                 </div>
-                <div className="flex items-center justify-between">
-                    <button type="submit" className="bg-orange-500 hover:bg-orange-700 text-white font-bold py-2 px-4 rounded">Login</button>
-                    <a href="#" className="text-sm text-gray-600 hover:text-gray-900">Forgot password?</a>
+                <div className="flex items-center justify-center">
+                    <button type="submit" className="bg-orange-500 hover:bg-orange-700 text-white font-bold py-2 px-20 rounded">Login</button>
                 </div>
-                <div>
-                    <p className="text-sm text-gray-600 flex pl-24 pt-10">Don't have an account? <span><Link to='/signup' className='text-orange-500 hover:text-orange-800'>Signup</Link></span></p>
+                <div className='flex items-center justify-center '>
+                    <p className="text-sm text-gray-600 flex  pt-4">Don't have an account? <span><Link to='/signup' className='text-orange-500 hover:text-orange-800'>Signup</Link></span></p>
                 </div>
-                {errorMessage && <p className="text-red-500 text-xs italic mt-4">{errorMessage}</p>}
             </form>
         </div>
     );

@@ -145,7 +145,7 @@ function Signup() {
           type='submit'
           className="bg-orange-500 hover:bg-orange-700 text-white font-bold py-2 px-20 rounded">Sign Up</button> 
          
-         <p className="text-sm text-gray-600 flex pt-4 pl-[7rem]">Already have an account? <span>
+         <p className="text-sm text-gray-600 flex pt-4 md:pl-[7rem] pl-16">Already have an account? <span>
          <Link to='/' className='text-orange-500 hover:text-orange-800'>Login</Link></span></p>
       </div>
     </form>
